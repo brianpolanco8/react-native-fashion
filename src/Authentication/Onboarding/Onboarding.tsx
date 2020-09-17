@@ -1,8 +1,15 @@
-import React, { useEffect, useRef } from "react";
-import { View, StyleSheet, Dimensions, Text, Alert } from "react-native";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import Animated, { divide, multiply } from "react-native-reanimated";
+import React, { useRef } from "react";
+import { View, StyleSheet, Dimensions, Image } from "react-native";
+import Animated, {
+  divide,
+  Extrapolate,
+  interpolate,
+  multiply,
+} from "react-native-reanimated";
 import { interpolateColor, useScrollHandler } from "react-native-redash";
+
+import { theme } from "../../components";
+import { Routes, StackNavigationProps } from "../../components/Navigation";
 
 import Dot from "./Dot";
 import Slide, { SLIDE_HEIGHT } from "./Slide";
@@ -10,7 +17,7 @@ import Subslide from "./Subslide";
 
 const { width } = Dimensions.get("window");
 
-export const BORDER_RADIUS = 75;
+// export const theme.borderRadii.xl = 75;
 
 const styles = StyleSheet.create({
   container: {
@@ -19,7 +26,7 @@ const styles = StyleSheet.create({
   },
   slider: {
     height: SLIDE_HEIGHT,
-    borderBottomRightRadius: BORDER_RADIUS,
+    borderBottomRightRadius: theme.borderRadii?.xl,
   },
   footer: {
     flex: 1,
@@ -27,14 +34,21 @@ const styles = StyleSheet.create({
   footerContent: {
     flex: 1,
     backgroundColor: "white",
-    borderTopLeftRadius: BORDER_RADIUS,
+    borderTopLeftRadius: theme.borderRadii?.xl,
   },
   pagination: {
     ...StyleSheet.absoluteFillObject,
-    height: BORDER_RADIUS,
+    height: theme.borderRadii?.xl,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+  },
+  underlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    borderBottomRightRadius: theme.borderRadii?.xl,
+    overflow: "hidden",
   },
 });
 
@@ -45,7 +59,11 @@ const slides = [
     description:
       "Confused about yout outfit ? Don't Worry! Find the best outfit here!",
     color: "#BFEAF5",
-    picture: require("../../../assets/images/Layer-3.png"),
+    picture: {
+      src: require("../../../assets/images/Layer-3.png"),
+      width: 2513,
+      height: 3980,
+    },
   },
   {
     title: "Playful",
@@ -53,7 +71,11 @@ const slides = [
     description:
       "Hating the clothes in your wardrobe ? Explore hundreads of outfit ideas",
     color: "#BEECC4",
-    picture: require("../../../assets/images/Layer-3.png"),
+    picture: {
+      src: require("../../../assets/images/Layer-3.png"),
+      width: 2513,
+      height: 3980,
+    },
   },
   {
     title: "Excentric",
@@ -61,7 +83,11 @@ const slides = [
     description:
       "Create your individual & unique style and look amazing everyday",
     color: "#FFE4D9",
-    picture: require("../../../assets/images/Layer-3.png"),
+    picture: {
+      src: require("../../../assets/images/Layer-3.png"),
+      width: 2513,
+      height: 3980,
+    },
   },
   {
     title: "Funky",
@@ -69,11 +95,17 @@ const slides = [
     description:
       "Discover the latest trends in fashion and explore your personality",
     color: "#FFDDDD",
-    picture: require("../../../assets/images/Layer-3.png"),
+    picture: {
+      src: require("../../../assets/images/Layer-3.png"),
+      width: 2513,
+      height: 3980,
+    },
   },
 ];
 
-const Onboarding = () => {
+const Onboarding = ({
+  navigation,
+}: StackNavigationProps<Routes, "Onboarding">) => {
   const scroll = useRef<Animated.ScrollView>(null);
   // TODO: scrollHandler useScrollHandler?
   const { scrollHandler, x } = useScrollHandler();
@@ -85,6 +117,30 @@ const Onboarding = () => {
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.slider, { backgroundColor }]}>
+        {slides.map(({ picture }, index) => {
+          const opacity = interpolate(x, {
+            inputRange: [
+              (index - 0.5) * width,
+              index * width,
+              (index + 0.5) * width,
+            ],
+            outputRange: [0, 1, 0],
+            extrapolate: Extrapolate.CLAMP,
+          });
+          return (
+            <Animated.View style={[styles.underlay, { opacity }]} key={index}>
+              <Image
+                source={picture.src}
+                style={{
+                  width: width - theme.borderRadii?.xl,
+                  height:
+                    ((width - theme.borderRadii?.xl) * picture.height) /
+                    picture.width,
+                }}
+              />
+            </Animated.View>
+          );
+        })}
         <Animated.ScrollView
           ref={scroll}
           horizontal
@@ -127,21 +183,27 @@ const Onboarding = () => {
               flexDirection: "row",
             }}
           >
-            {slides.map(({ subtitle, description }, index) => (
-              <Subslide
-                key={index}
-                last={index === slides.length - 1}
-                subtitle={subtitle}
-                description={description}
-                onPress={() => {
-                  if (scroll.current) {
-                    scroll.current
-                      .getNode()
-                      .scrollTo({ x: width * (index + 1), animated: true });
-                  }
-                }}
-              />
-            ))}
+            {slides.map(({ subtitle, description }, index) => {
+              const last = index === slides.length - 1;
+              return (
+                <Subslide
+                  key={index}
+                  last={index === slides.length - 1}
+                  subtitle={subtitle}
+                  description={description}
+                  onPress={() => {
+                    if (last) {
+                      //NAVIGATE TO WELCOME
+                      navigation.navigate("Welcome");
+                    } else {
+                      scroll.current
+                        ?.getNode()
+                        .scrollTo({ x: width * (index + 1), animated: true });
+                    }
+                  }}
+                />
+              );
+            })}
           </Animated.View>
         </View>
       </View>
