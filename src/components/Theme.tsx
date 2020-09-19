@@ -24,11 +24,13 @@ const theme: BaseTheme = createTheme({
     primary: "#2CB9b0",
     secondary: "#0C0D34",
 
-    text: "rgba(12,13,52,0.7)",
+    text: "rgba(12,13,52,0.5)",
     white: "white",
     grey: "rgba(12, 13, 52, 0.05)",
+    darkGrey: "#8A8D90",
     lightGrey: "#F3F0EF",
     background: "#0C0D34",
+    danger: "#FF0058",
   },
   spacing: {
     s: 8,

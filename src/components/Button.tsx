@@ -10,7 +10,7 @@ interface ButtonProps {
   variant: "default" | "primary" | "transparent";
   label?: string;
   onPress: () => void;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const Button = ({ variant, label, onPress, children }: ButtonProps) => {
@@ -23,8 +23,7 @@ const Button = ({ variant, label, onPress, children }: ButtonProps) => {
       ? "transparent"
       : theme.colors.grey;
 
-  const color =
-    variant === "primary" ? theme.colors.white : theme.colors.secondary;
+  const color = variant === "primary" ? "white" : "secondary";
   return (
     <RectButton
       style={[styles.container, { backgroundColor }]}
@@ -33,7 +32,7 @@ const Button = ({ variant, label, onPress, children }: ButtonProps) => {
       {children ? (
         children
       ) : (
-        <Text variant="button" style={color}>
+        <Text variant="button" color={color}>
           {label}
         </Text>
       )}
