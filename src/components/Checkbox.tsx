@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Box } from "./Theme";
 import { Feather as Icon } from "@expo/vector-icons";
 import { RectButton } from "react-native-gesture-handler";
 
+import { Box } from "./Theme";
+
 interface Props {
   label: string;
+  checked: boolean;
+  onChange: () => void;
 }
 
-const Checkbox = ({ label }: Props) => {
-  const [checked, setChecked] = useState(false);
+const Checkbox = ({ label, checked, onChange }: Props) => {
   return (
-    <RectButton
-      onPress={() => setChecked((c) => !c)}
-      style={{ justifyContent: "center" }}
-    >
+    <RectButton onPress={() => onChange()} style={{ justifyContent: "center" }}>
       <Box flexDirection="row" justifyContent="center" alignItems="center">
         <Box
           marginRight="m"
@@ -27,7 +26,7 @@ const Checkbox = ({ label }: Props) => {
           borderColor="primary"
           backgroundColor={checked ? "primary" : "white"}
         >
-          <Icon name="check" />
+          {checked ? <Icon name="check" /> : null}
         </Box>
         <Text variant="button">{label}</Text>
       </Box>
