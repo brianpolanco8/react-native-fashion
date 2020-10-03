@@ -1,14 +1,9 @@
+import { useTheme } from "@shopify/restyle";
 import React, { ReactNode } from "react";
-import {
-  Dimensions,
-  Image,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Dimensions, Image, StatusBar, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import theme, { Box } from "./Theme";
+
+import { Box } from "./Theme";
 
 interface ContainerProps {
   children: ReactNode;
@@ -24,6 +19,7 @@ const height = width * aspectRatio;
 
 const Container = ({ children, footer }: ContainerProps) => {
   const insets = useSafeAreaInsets();
+  const theme = useTheme();
   return (
     <Box flex={1} backgroundColor="secondary">
       <StatusBar barStyle="light-content" />
@@ -39,7 +35,7 @@ const Container = ({ children, footer }: ContainerProps) => {
               width,
               height: height,
               ...StyleSheet.absoluteFillObject,
-              borderBottomLeftRadius: 75,
+              borderBottomLeftRadius: theme.borderRadii.xl,
             }}
           />
         </Box>
@@ -78,7 +74,3 @@ Container.defaultProps = {
 };
 
 export default Container;
-
-const styles = StyleSheet.create({
-  image: {},
-});

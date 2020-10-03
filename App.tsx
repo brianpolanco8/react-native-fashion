@@ -1,15 +1,10 @@
-import * as React from "react";
-import { Text, View } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { ThemeProvider } from "@shopify/restyle";
-
-import AuthenticationNavigator, {
-  Onboarding,
-  Welcome,
-} from "./src/Authentication";
-import { LoadAssets, theme } from "./src/components";
-import { Routes } from "./src/components/Navigation";
+import * as React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+
+import AuthenticationNavigator from "./src/Authentication";
+import { LoadAssets } from "./src/components";
+import { theme } from "./src/components/Theme";
 
 const fonts = {
   "SFProDisplay-Bold": require("./assets/fonts/SF-Pro-Display-Bold.otf"),
@@ -20,11 +15,13 @@ const fonts = {
 
 export default function App() {
   return (
-    <LoadAssets {...{ fonts }}>
-      <SafeAreaProvider>
-        <AuthenticationNavigator />
-      </SafeAreaProvider>
-    </LoadAssets>
+    <ThemeProvider theme={theme}>
+      <LoadAssets {...{ fonts }}>
+        <SafeAreaProvider>
+          <AuthenticationNavigator />
+        </SafeAreaProvider>
+      </LoadAssets>
+    </ThemeProvider>
     // <View>
     //   <Text>Hello</Text>
     // </View>

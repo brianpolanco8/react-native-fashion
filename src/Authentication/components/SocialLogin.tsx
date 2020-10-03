@@ -3,9 +3,9 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import Svg, { Path, Rect } from "react-native-svg";
 
-import { Box, theme } from "../../components";
+import { Box, useTheme } from "../../components";
 
-const SIZE = theme.borderRadii.l * 2;
+
 
 const Facebook = (props) => (
   <Svg width={44} height={44} viewBox="0 0 44 44" fill="none">
@@ -53,6 +53,8 @@ const Apple = (props) => (
 );
 
 const SocialIcon = ({ children }) => {
+  const theme = useTheme();
+  const SIZE = theme.borderRadii.l * 2;
   return (
     <Box
       backgroundColor="white"
@@ -68,7 +70,7 @@ const SocialIcon = ({ children }) => {
   );
 };
 
-const SocialLogin = ({}) => {
+const SocialLogin = ({ }) => {
   return (
     <Box flexDirection="row" justifyContent="center" alignItems="center">
       <SocialIcon>

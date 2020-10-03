@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
@@ -27,7 +27,7 @@ const Login = ({ navigation }: StackNavigationProps<Routes, "Login">) => {
     <>
       <SocialLogin />
       <Box alignItems="center">
-        <Button variant="transparent" onPress={() => {}}>
+        <Button variant="transparent" onPress={() => { }}>
           <Box flexDirection="row" alignItems="center">
             <Text variant="button" color="white">
               {" "}
@@ -65,46 +65,46 @@ const Login = ({ navigation }: StackNavigationProps<Routes, "Login">) => {
             touched,
             setFieldValue,
           }) => (
-            <Box>
-              <Box marginBottom="m">
+              <Box>
+                <Box marginBottom="m">
+                  <TextInput
+                    icon="mail"
+                    placeholder="Enter your email"
+                    onChangeText={handleChange("email")}
+                    onBlur={handleBlur("email")}
+                    error={errors.email}
+                    touched={touched.email}
+                  />
+                </Box>
                 <TextInput
-                  icon="mail"
-                  placeholder="Enter your email"
-                  onChangeText={handleChange("email")}
-                  onBlur={handleBlur("email")}
-                  error={errors.email}
-                  touched={touched.email}
+                  icon="lock"
+                  placeholder="Enter your password"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  error={errors.password}
+                  touched={touched.password}
                 />
-              </Box>
-              <TextInput
-                icon="lock"
-                placeholder="Enter your password"
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                error={errors.password}
-                touched={touched.password}
-              />
 
-              <Box flexDirection="row" justifyContent="space-between">
-                <Checkbox
-                  label="Remember me"
-                  checked={values.remember}
-                  onChange={() => setFieldValue("remember", !values.remember)}
-                />
-                <Button variant="transparent" onPress={() => {}}>
-                  <Text color="primary">Forgot password</Text>
-                </Button>
-              </Box>
+                <Box flexDirection="row" justifyContent="space-between">
+                  <Checkbox
+                    label="Remember me"
+                    checked={values.remember}
+                    onChange={() => setFieldValue("remember", !values.remember)}
+                  />
+                  <Button variant="transparent" onPress={() => { }}>
+                    <Text color="primary">Forgot password</Text>
+                  </Button>
+                </Box>
 
-              <Box alignItems="center" marginTop="m">
-                <Button
-                  label="Log into your account"
-                  variant="primary"
-                  onPress={handleSubmit}
-                />
+                <Box alignItems="center" marginTop="m">
+                  <Button
+                    label="Log into your account"
+                    variant="primary"
+                    onPress={handleSubmit}
+                  />
+                </Box>
               </Box>
-            </Box>
-          )}
+            )}
         </Formik>
       </Box>
     </Container>

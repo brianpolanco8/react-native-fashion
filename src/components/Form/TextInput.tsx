@@ -1,15 +1,14 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState } from "react";
+import React from "react";
 import {
   StyleSheet,
-  Text,
-  View,
+
   TextInput as RNTextInput,
   TextInputProps as RNTextInputProps,
 } from "react-native";
 import { Feather as Icon } from "@expo/vector-icons";
 
-import theme, { Box } from "../Theme";
+import { Box, useTheme } from "../Theme";
 
 interface Props extends RNTextInputProps {
   icon: string;
@@ -17,13 +16,12 @@ interface Props extends RNTextInputProps {
   error?: string;
 }
 
-const SIZE = theme.borderRadii.m * 2;
 
 const TextInput = ({ icon, touched, error, ...props }: Props) => {
   const reColor = !touched ? "text" : error ? "danger" : "primary";
-
+  const theme = useTheme();
+  const SIZE = theme.borderRadii.m * 2;
   const color = theme.colors[reColor];
-
   return (
     <Box
       flexDirection="row"
@@ -62,4 +60,4 @@ const TextInput = ({ icon, touched, error, ...props }: Props) => {
 
 export default TextInput;
 
-const styles = StyleSheet.create({});
+
